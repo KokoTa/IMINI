@@ -1,0 +1,14 @@
+extends layout
+
+block content
+	.container.container-margin-top
+		h1 用户登录
+		hr
+		form.row(method='post')
+			.form-group
+				label(for='username') 用户名
+				input.form-control#username(placeholder='请输入用户名' name='username' required)
+			.form-group
+				label(for='password') 密码
+				input.form-control#password(type='password' placeholder='请输入密码' name='password' required)
+			button.btn.btn-default(type='submit') 登录

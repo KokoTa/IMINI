@@ -40,7 +40,7 @@ router.post('/regin', function(req, res, next) {
 		}
 		var one = new User(newUser)
 		new Promise((resolve, reject) => {
-			User.find({ name: newUser.name }, (err, data) => { // find info
+			User.find({ name: newUser.name, password: newUser.password }, (err, data) => { // find info
 				if(err) reject()
 				resolve(data)
 			})
@@ -63,16 +63,39 @@ router.post('/regin', function(req, res, next) {
 
 // 用户登录
 router.get('/login', function(req, res, next) {
-	
+	if(req.session.user) {
+		req.flash('error', '您已登录')
+		res.redirect('/')
+	} else {
+		res.render('login', {
+			title: '用户登录'
+		})
+	}
 })
 // 登录信息提交
 router.post('/login', function(req, res, next) {
-	
+	var name = req.body.username
+	var password = md5(req.body.password)
+	User.find({ name: name, password: password}, function(err, data) {
+		console.log(data)
+		if(data.length) {
+			req.flash('success', '登陆成功')
+			req.session.user = {
+				name, password
+			}
+			res.redirect('/')
+		} else {
+			req.flash('error', '用户名/密码错误')
+			res.redirect('/login')
+		}
+	})
 })
 
 // 登出
 router.get('/logout', function(req, res, next) {
-	
+	req.session.user = null
+	req.flash('success', '登出成功')
+	res.redirect('/')
 })
 
 
