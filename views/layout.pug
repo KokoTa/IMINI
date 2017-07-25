@@ -1,0 +1,16 @@
+doctype html
+html
+	head
+		title #{title} - IMINI
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+		script(src='https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js')
+		script(src='/javascripts/bootstrap.min.js')
+	body
+		include ./component/navbar.pug
+		- if(messages.error)
+			.container.messages-error= messages.error
+		- if(messages.success)
+			.container.messages-success= messages.success
+		block content
+		include ./component/footer.pug
