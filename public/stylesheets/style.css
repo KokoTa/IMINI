@@ -5,7 +5,7 @@ body {
 a {
   color: #00B7FF; }
 
-.jumbotron-margin-top {
+.container {
   margin-top: 30px; }
 
 .messages-error {
@@ -25,5 +25,8 @@ a {
   background: green;
   color: white;
   margin: 10px; }
+
+.time {
+  color: lightgray; }
 
 /*# sourceMappingURL=style.css.map */

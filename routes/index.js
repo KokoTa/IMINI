@@ -1,24 +1,57 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../model/model').User;
+var User = require('../model/model').User
 var md5 = require('md5')
 var Promise = require('bluebird').Promise
+var Post = require('../model/model').Post
 
 // 首页
 router.get('/', function(req, res, next) {
-  res.render('index', {
-		title: '首页' 
-	});
+	Post.find({})
+		.sort({ time: -1 })
+		.exec((err, posts) => {
+			res.render('index', {
+				title: '首页' ,
+				posts: posts
+			})
+		})
 });
 
 // 用户页
 router.get('/u/:user', function(req, res, next) {
-
+	var uername = req.params.user
+	if(req.session.user) {
+		Post.find({ author: uername })
+			.sort({ time: -1 })
+			.exec((err, posts) => {
+				res.render('index', {
+					title: '用户页' ,
+					posts: posts
+				})
+			})
+	} else {
+		req.flash('error', '请登录')
+		res.redirect('/')
+	}
 })
 
 // 发送信息
 router.post('/post', function(req, res, next) {
-	
+	var content = req.body.content
+	var author = req.session.user.name
+	var newPost = {
+		author,
+		content,
+		time: new Date()
+	}
+	if(content) {
+		req.flash('success', '发表成功')
+		var two = new Post(newPost)
+		two.save(function(err, that) {
+			if(err) return console.log(err)
+		})
+		res.redirect('/')
+	}
 })
 
 // 用户注册
@@ -77,7 +110,6 @@ router.post('/login', function(req, res, next) {
 	var name = req.body.username
 	var password = md5(req.body.password)
 	User.find({ name: name, password: password}, function(err, data) {
-		console.log(data)
 		if(data.length) {
 			req.flash('success', '登陆成功')
 			req.session.user = {

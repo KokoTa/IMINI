@@ -1,0 +1,8 @@
+if user
+	.container
+		.row
+			form(action='/post' method='post')
+				div.input-group
+					input.form-control(type='text' placeholder='发表内容' name='content' required)
+					span.input-group-btn
+						button.btn.btn-default(type='submit') 发表
