@@ -88,4 +88,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+if(module.parent) {
+  module.exports = app;
+} else {
+  app.listen(3000)
+  console.log('App running')
+}

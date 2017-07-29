@@ -1,0 +1,19 @@
+# IMINI 
+> 一个简单的博客系统
+## dependencies
+* 使用express-cil搭建所包含的：
+	* body-parser
+	* cookie-parser
+	* debug
+	* express
+	* morgan
+	* node-sass-middleware
+	* pug
+	* serve-favicon
+* 第三方下载的:
+	* mongoose
+	* express-session
+	* connect-mongo
+	* express-flash
+## 效果
+![move](./move.gif)
